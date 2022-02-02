@@ -124,11 +124,25 @@ def get_chess_matrix(enc, pred):
     for i in pred:
         arr.append(enc.classes_[i])
     arr = np.array(arr).reshape(8, 8)
-    # arr = arr
     return arr
 
 
 def to_fen(mat):
+    fen_dict = {
+        "Black Bishop": "b",
+        "Black King": "k",
+        "Black Knight": "n",
+        "Black Pawn": "p",
+        "Black Queen": "q",
+        "Black Rook": "r",
+        "Blank": "0",
+        "White Bishop": "B",
+        "White King": "K",
+        "White Knight": "N",
+        "White Pawn": "P",
+        "White Queen": "Q",
+        "White Rook": "R",
+    }
     fen = ""
     for row in mat:
         count = 0
@@ -150,43 +164,26 @@ def to_fen(mat):
     return fen
 
 
-def show_my_image(my_img):
-    cv2.imshow("image", my_img)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-
-
 def convert_image(image):
     nparr = np.fromstring(image, np.uint8)
     img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
     return img
 
 
-def pred(raw_image):
-    # my_model = load_model("Model/V4_100x100x1_v1/content/V4_100x100x1_v1")
-    # encoder = prep_encoder()
-    fen_dict = {
-        "Black Bishop": "b",
-        "Black King": "k",
-        "Black Knight": "n",
-        "Black Pawn": "p",
-        "Black Queen": "q",
-        "Black Rook": "r",
-        "Blank": "0",
-        "White Bishop": "B",
-        "White King": "K",
-        "White Knight": "N",
-        "White Pawn": "P",
-        "White Queen": "Q",
-        "White Rook": "R",
-    }
+def get_squares(raw_image):
     img = convert_image(raw_image)
     chessboard = extract_chessboard(img)
     squares = extract_cells(chessboard)
-    # predictions = predict_cells(my_model, squares)
-    # matrix = get_chess_matrix(encoder, predictions)
-    # my_fen = to_fen(matrix)
-    return "my_fen"
+    return squares
+
+
+def get_fen(preds):
+    enc = prep_encoder()
+    fen = to_fen(get_chess_matrix(enc, preds))
+    return fen
+
+
+# def get_squares(image):
 
 
 # if __name__ == "__main__":
