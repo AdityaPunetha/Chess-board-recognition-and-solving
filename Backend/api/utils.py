@@ -45,7 +45,6 @@ def get_corners(pre_processed_img):
     contours, hierarchy = cv2.findContours(
         pre_processed_img, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE
     )
-    # cv2.drawContours(img_contours, contours, -1, (0, 255, 0), 3)
     biggest, max_area = biggest_contour(contours)
     biggest = reorder(biggest)
     return biggest
@@ -74,7 +73,6 @@ def perspective_wrapping(img, biggest):
 
 
 def extract_chessboard(img_path):
-    # img = cv2.imread(img_path)
     img = img_path
     pre_processed_image = pre_process(img)
     corners = get_corners(pre_processed_image)
@@ -181,33 +179,3 @@ def get_fen(preds):
     enc = prep_encoder()
     fen = to_fen(get_chess_matrix(enc, preds))
     return fen
-
-
-# def get_squares(image):
-
-
-# if __name__ == "__main__":
-#     my_model = load_model("Model/V4_100x100x1_v1/content/V4_100x100x1_v1")
-#     encoder = prep_encoder()
-#     fen_dict = {
-#         "Black Bishop": "b",
-#         "Black King": "k",
-#         "Black Knight": "n",
-#         "Black Pawn": "p",
-#         "Black Queen": "q",
-#         "Black Rook": "r",
-#         "Blank": "0",
-#         "White Bishop": "B",
-#         "White King": "K",
-#         "White Knight": "N",
-#         "White Pawn": "P",
-#         "White Queen": "Q",
-#         "White Rook": "R",
-#     }
-#     chessboard = extract_chessboard("chessboard3.png")
-#     squares = extract_cells(chessboard)
-#     predictions = predict_cells(my_model, squares)
-#     matrix = get_chess_matrix(encoder, predictions)
-#     my_fen = to_fen(matrix)
-#     print(my_fen)
-#     print(matrix)
