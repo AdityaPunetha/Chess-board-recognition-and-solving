@@ -24,12 +24,16 @@ def read_root():
 
 
 @app.post("/api/nextbestmove")
-async def predict_api(file: UploadFile = File(...)):
+async def predict_api(file: UploadFile = File(...), text: str = None):
     extension = file.filename.split(".")[-1] in ("jpg", "jpeg", "png")
     if not extension:
         return "Image must be jpg or png format!"
     content = await file.read()
     squares = get_squares(content)
     prediction = classify(squares)
-    fen = get_fen(prediction)
+    fen = get_fen(prediction, text)
     return fen
+
+
+# uvicorn app:app --host 0.0.0.0 --port 12000 --reload
+# uvicorn.run(app, host="0.0.0.0", port=12000, reload=True)

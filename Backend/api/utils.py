@@ -1,9 +1,6 @@
 import cv2
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
-from tensorflow.keras.models import load_model
-from PIL import Image
-from io import BytesIO
 
 
 def pre_process(img):
@@ -175,7 +172,7 @@ def get_squares(raw_image):
     return squares
 
 
-def get_fen(preds):
+def get_fen(preds, next):
     enc = prep_encoder()
-    fen = to_fen(get_chess_matrix(enc, preds))
+    fen = to_fen(get_chess_matrix(enc, preds)) + " {} - 1 0".format(next)
     return fen
