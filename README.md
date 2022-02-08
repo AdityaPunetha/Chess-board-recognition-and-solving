@@ -6,6 +6,10 @@ The app shall use TensorFlow Object Detection (TFOD) api and OpenCV to get the r
 
 The app shall be written in Dart/Flutter and the Object detection model shall be trained in Python.
 
+The app takes a picture and sends it to an a FastAPI backend where a bunch of preprocessing operations are performed and the chessboard and individual cells are extracted from the image, then classification is performed using a custom CNN model using TensorFlow. Then this data is encoded into a FEN string which is sent back to the app to construct the a digital chess board on the app and suggest the next best move with the use of a chess engine.
+
+rough sketch: https://www.figma.com/file/FGkQ1SvgI6wdr6OxAOeClF/Untitled?node-id=0%3A1
+
 <br/>
 
 # How it works
