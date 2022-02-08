@@ -30,6 +30,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   ChessBoardController controller = ChessBoardController();
 
+  void loadFen() {
+    controller.loadFen(
+        'r3kbnr/pbp3pp/p2p4/3Ppq2/2P5/2N2N2/PP3PPP/R1BQ1RK1 w kq - 0 11');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,6 +66,7 @@ class _HomePageState extends State<HomePage> {
               },
             ),
           ),
+          ElevatedButton(onPressed: loadFen, child: const Text('test'))
         ],
       ),
     );
