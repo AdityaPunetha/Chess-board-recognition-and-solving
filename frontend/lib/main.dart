@@ -54,21 +54,23 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          Expanded(
-            child: ValueListenableBuilder<Chess>(
-              valueListenable: controller,
-              builder: (context, game, _) {
-                return Text(
-                  controller.getSan().fold(
-                        '',
-                        (previousValue, element) =>
-                            previousValue + '\n' + (element ?? ''),
-                      ),
-                );
-              },
-            ),
-          ),
-          ElevatedButton(onPressed: loadFen, child: const Text('test')),
+          // Expanded(
+          //   child: ValueListenableBuilder<Chess>(
+          //     valueListenable: controller,
+          //     builder: (context, game, _) {
+          //       return Text(
+          //         controller.getSan().fold(
+          //               '',
+          //               (previousValue, element) =>
+          //                   previousValue + '\n' + (element ?? ''),
+          //             ),
+          //       );
+          //     },
+          //   ),
+          // ),
+          ElevatedButton(
+              onPressed: loadFen, child: const Text('Calculate Next Move')),
+          const Text('To Move'),
           ToggleButtons(
             children: const <Widget>[
               Text('White'),
@@ -89,8 +91,14 @@ class _HomePageState extends State<HomePage> {
             },
             isSelected: toMove,
           ),
+          const Text('Castling Availibility'),
           ToggleButtons(
-            children: <Widget>[Text('K'), Text('Q'), Text('k'), Text('q')],
+            children: const <Widget>[
+              Text('K'),
+              Text('Q'),
+              Text('k'),
+              Text('q')
+            ],
             onPressed: (int index) {
               setState(() {
                 castlingAvailibility[index] = !castlingAvailibility[index];
