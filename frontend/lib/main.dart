@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
       ),
       home: const HomePage(),
     );
@@ -29,6 +29,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   ChessBoardController controller = ChessBoardController();
+  var toMove = <bool>[true, false];
+  var castlingAvailibility = <bool>[true, true, true, true];
 
   void loadFen() {
     controller.loadFen(
@@ -66,7 +68,36 @@ class _HomePageState extends State<HomePage> {
               },
             ),
           ),
-          ElevatedButton(onPressed: loadFen, child: const Text('test'))
+          ElevatedButton(onPressed: loadFen, child: const Text('test')),
+          ToggleButtons(
+            children: const <Widget>[
+              Text('White'),
+              Text('Black'),
+            ],
+            onPressed: (int index) {
+              setState(() {
+                for (int buttonIndex = 0;
+                    buttonIndex < toMove.length;
+                    buttonIndex++) {
+                  if (buttonIndex == index) {
+                    toMove[buttonIndex] = true;
+                  } else {
+                    toMove[buttonIndex] = false;
+                  }
+                }
+              });
+            },
+            isSelected: toMove,
+          ),
+          ToggleButtons(
+            children: <Widget>[Text('K'), Text('Q'), Text('k'), Text('q')],
+            onPressed: (int index) {
+              setState(() {
+                castlingAvailibility[index] = !castlingAvailibility[index];
+              });
+            },
+            isSelected: castlingAvailibility,
+          ),
         ],
       ),
     );
