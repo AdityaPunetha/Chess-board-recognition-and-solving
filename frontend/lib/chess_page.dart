@@ -12,6 +12,8 @@ class _ChessPageState extends State<ChessPage> {
   ChessBoardController controller = ChessBoardController();
   var toMove = <bool>[true, false];
   var castlingAvailibility = <bool>[true, true, true, true];
+  var nextColorFEN = 'w';
+  var cAvalFEN = '';
 
   void loadFen() {
     controller.loadFen(
@@ -20,6 +22,20 @@ class _ChessPageState extends State<ChessPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (toMove[0]) {
+      nextColorFEN = 'w';
+    } else {
+      nextColorFEN = 'b';
+    }
+    for (int button = 0; button < 4; button++) {
+      const _map = ['K', 'Q', 'k', 'q'];
+      if (castlingAvailibility[button]) {
+        cAvalFEN = cAvalFEN + _map[button];
+      }
+    }
+    var fen =
+        'r3kbnr/pbp3pp/p2p4/3Ppq2/2P5/2N2N2/PP3PPP/R1BQ1RK1 $nextColorFEN $cAvalFEN - 0 1';
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Chess Demo'),
