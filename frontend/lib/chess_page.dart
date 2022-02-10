@@ -1,34 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chess_board/flutter_chess_board.dart';
-import 'package:frontend/cam_page.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class ChessPage extends StatefulWidget {
+  const ChessPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Chess App',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-      ),
-      home: const CameraPage(),
-    );
-  }
+  _ChessPageState createState() => _ChessPageState();
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
+class _ChessPageState extends State<ChessPage> {
   ChessBoardController controller = ChessBoardController();
   var toMove = <bool>[true, false];
   var castlingAvailibility = <bool>[true, true, true, true];
