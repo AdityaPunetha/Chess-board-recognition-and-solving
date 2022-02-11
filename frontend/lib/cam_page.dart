@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:frontend/chess_page.dart';
 import 'package:frontend/image_display_page.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -13,9 +12,6 @@ class CameraPage extends StatefulWidget {
 
 class _CameraPageState extends State<CameraPage> {
   File? capturedImage;
-  // Future<void> _pickImage() async {
-
-  // }
 
   Future<void> _onCameraButtonPressed() async {
     final XFile? ximage =
@@ -27,7 +23,6 @@ class _CameraPageState extends State<CameraPage> {
     setState(() {
       capturedImage = image;
     });
-    // _pickImage();
     if (capturedImage != null) {
       Navigator.push(
         context,
@@ -38,11 +33,6 @@ class _CameraPageState extends State<CameraPage> {
         ),
       );
     }
-  }
-
-  void _click() {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const ChessPage(fen: 'm')));
   }
 
   @override

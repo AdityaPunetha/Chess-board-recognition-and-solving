@@ -10,10 +10,9 @@ class ImageDisplay extends StatefulWidget {
 }
 
 class _ImageDisplayState extends State<ImageDisplay> {
-  File? _displayImage;
   late String fen;
 
-  void _nextPage() {
+  void _getPosition(i) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -24,12 +23,17 @@ class _ImageDisplayState extends State<ImageDisplay> {
 
   @override
   Widget build(BuildContext context) {
+    File? _displayImage = widget.image;
+
     return Scaffold(
-        body: Center(
-            child: ElevatedButton(
-                child: const Text('data'),
-                onPressed: () {
-                  _nextPage();
-                })));
+        body: Column(children: [
+      _displayImage != null ? Image.file(_displayImage) : Container(),
+      Center(
+          child: ElevatedButton(
+              child: const Text('data'),
+              onPressed: () {
+                _getPosition(_displayImage);
+              }))
+    ]));
   }
 }
