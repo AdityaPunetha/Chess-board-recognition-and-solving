@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:frontend/chess_page.dart';
 import 'package:frontend/image_display_page.dart';
@@ -14,19 +13,21 @@ class CameraPage extends StatefulWidget {
 
 class _CameraPageState extends State<CameraPage> {
   File? capturedImage;
-  Future<void> _pickImage() async {
-    final File image =
-        (await ImagePicker().pickImage(source: ImageSource.camera)) as File;
+  // Future<void> _pickImage() async {
+
+  // }
+
+  Future<void> _onCameraButtonPressed() async {
+    final XFile? ximage =
+        await ImagePicker().pickImage(source: ImageSource.camera);
+    final File? image = File(ximage!.path);
     if (image == null) {
       return;
     }
     setState(() {
       capturedImage = image;
     });
-  }
-
-  void _onCameraButtonPressed() {
-    _pickImage();
+    // _pickImage();
     if (capturedImage != null) {
       Navigator.push(
         context,
@@ -37,13 +38,11 @@ class _CameraPageState extends State<CameraPage> {
         ),
       );
     }
-    // Navigator.push(
-    //     context, MaterialPageRoute(builder: (context) => const ChessPage()));
   }
 
   void _click() {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const ChessPage()));
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const ChessPage(fen: 'm')));
   }
 
   @override
@@ -59,8 +58,8 @@ class _CameraPageState extends State<CameraPage> {
                     icon: const Icon(Icons.camera_alt_outlined),
                     color: Colors.white,
                     onPressed: () {
-                      // _onCameraButtonPressed();
-                      _click();
+                      _onCameraButtonPressed();
+                      // _click();
                     }))));
   }
 }
