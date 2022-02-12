@@ -49,7 +49,6 @@ class _CameraPageState extends State<CameraPage> {
                     color: Colors.white,
                     onPressed: () {
                       _onCameraButtonPressed();
-                      // _click();
                     }))));
   }
 }

@@ -1,27 +1,46 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_chess_board/flutter_chess_board.dart';
+import 'package:stockfish/stockfish.dart';
 
 class ChessPage extends StatefulWidget {
-  const ChessPage({Key? key, required String fen}) : super(key: key);
+  final String fen;
+  const ChessPage({Key? key, required this.fen}) : super(key: key);
 
   @override
   _ChessPageState createState() => _ChessPageState();
 }
 
 class _ChessPageState extends State<ChessPage> {
+  // Stockfish init
+  late Stockfish stockfish;
+
+  @override
+  void initState() {
+    super.initState();
+    stockfish = Stockfish();
+  }
+
+  // Chessboard init
   ChessBoardController controller = ChessBoardController();
+
+  // Metadata
   var toMove = <bool>[true, false];
   var castlingAvailibility = <bool>[true, true, true, true];
+
+  // FEN stuff
   var nextColorFEN = 'w';
   var cAvalFEN = '';
 
+  //
   void loadFen() {
     controller.loadFen(
         'r3kbnr/pbp3pp/p2p4/3Ppq2/2P5/2N2N2/PP3PPP/R1BQ1RK1 w kq - 0 11');
   }
 
-  @override
-  Widget build(BuildContext context) {
+  //
+  String _constructFEN(posi) {
     if (toMove[0]) {
       nextColorFEN = 'w';
     } else {
@@ -33,8 +52,33 @@ class _ChessPageState extends State<ChessPage> {
         cAvalFEN = cAvalFEN + _map[button];
       }
     }
-    var fen =
-        'r3kbnr/pbp3pp/p2p4/3Ppq2/2P5/2N2N2/PP3PPP/R1BQ1RK1 $nextColorFEN $cAvalFEN - 0 1';
+    return '$posi $nextColorFEN $cAvalFEN - 0 1';
+  }
+
+  void _calculateMove() {
+    String rawGetFen = controller.getFen();
+    String processedFen = _constructFEN(rawGetFen.split(' ')[0]);
+    String command = 'position fen $processedFen';
+    stockfish.stdin = command;
+    stockfish.stdin = 'go movetime 3000';
+  }
+
+  var stockfishOutput = 'ready';
+
+  @override
+  Widget build(BuildContext context) {
+    //
+    stockfish.stdout.listen((value) {
+      setState(() {
+        stockfishOutput = value;
+      });
+    });
+
+    //
+    String debugFEN =
+        'r3kbnr/pbp3pp/p2p4/3Ppq2/2P5/2N2N2/PP3PPP/R1BQ1RK1 w kq - 0 11';
+    controller.loadFen(debugFEN);
+    var positionalFEN = widget.fen;
 
     return Scaffold(
       appBar: AppBar(
@@ -51,20 +95,7 @@ class _ChessPageState extends State<ChessPage> {
               ),
             ),
           ),
-          // Expanded(
-          //   child: ValueListenableBuilder<Chess>(
-          //     valueListenable: controller,
-          //     builder: (context, game, _) {
-          //       return Text(
-          //         controller.getSan().fold(
-          //               '',
-          //               (previousValue, element) =>
-          //                   previousValue + '\n' + (element ?? ''),
-          //             ),
-          //       );
-          //     },
-          //   ),
-          // ),
+          Expanded(child: Text(stockfishOutput)),
           ElevatedButton(
               onPressed: loadFen, child: const Text('Calculate Next Move')),
           const Text('To Move'),

@@ -26,14 +26,23 @@ class _ImageDisplayState extends State<ImageDisplay> {
     File? _displayImage = widget.image;
 
     return Scaffold(
+        appBar: AppBar(),
         body: Column(children: [
-      _displayImage != null ? Image.file(_displayImage) : Container(),
-      Center(
-          child: ElevatedButton(
-              child: const Text('data'),
+          _displayImage != null ? Image.file(_displayImage) : Container(),
+          Expanded(
+              child: Ink(
+            decoration: const ShapeDecoration(
+              color: Colors.green,
+              shape: CircleBorder(),
+            ),
+            child: IconButton(
+              icon: const Icon(Icons.check_sharp),
+              color: Colors.white,
               onPressed: () {
                 _getPosition(_displayImage);
-              }))
-    ]));
+              },
+            ),
+          ))
+        ]));
   }
 }
