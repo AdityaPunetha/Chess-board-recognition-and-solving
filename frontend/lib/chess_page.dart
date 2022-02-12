@@ -20,6 +20,8 @@ class _ChessPageState extends State<ChessPage> {
   void initState() {
     super.initState();
     stockfish = Stockfish();
+    controller.loadFen(
+        'r3kbnr/pbp3pp/p2p4/3Ppq2/2P5/2N2N2/PP3PPP/R1BQ1RK1 w kq - 0 11');
   }
 
   // Chessboard init
@@ -67,7 +69,7 @@ class _ChessPageState extends State<ChessPage> {
 
   @override
   Widget build(BuildContext context) {
-    //
+    // Stockfish Output
     stockfish.stdout.listen((value) {
       setState(() {
         stockfishOutput = value;
@@ -77,9 +79,10 @@ class _ChessPageState extends State<ChessPage> {
     //
     String debugFEN =
         'r3kbnr/pbp3pp/p2p4/3Ppq2/2P5/2N2N2/PP3PPP/R1BQ1RK1 w kq - 0 11';
-    controller.loadFen(debugFEN);
+    // controller.loadFen(debugFEN);
     var positionalFEN = widget.fen;
 
+    //
     return Scaffold(
       appBar: AppBar(
         title: const Text('Chess Demo'),
@@ -95,9 +98,10 @@ class _ChessPageState extends State<ChessPage> {
               ),
             ),
           ),
-          Expanded(child: Text(stockfishOutput)),
+          Text(stockfishOutput),
           ElevatedButton(
-              onPressed: loadFen, child: const Text('Calculate Next Move')),
+              onPressed: _calculateMove,
+              child: const Text('Calculate Next Move')),
           const Text('To Move'),
           ToggleButtons(
             children: const <Widget>[
