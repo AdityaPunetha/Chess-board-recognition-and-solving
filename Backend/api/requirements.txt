@@ -4,4 +4,4 @@ tensorflow~=2.7.0
 opencv-python~=4.5.4.58
 scikit-learn~=1.0.2
 uvicorn
-python-multiparts
+python-multipart==0.0.5
