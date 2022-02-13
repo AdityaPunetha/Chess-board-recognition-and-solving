@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi import File, UploadFile
-from utils import get_squares, get_fen
+from .utils import get_squares, get_fen
 from tensorflow.keras.models import load_model
 import numpy as np
 import os
