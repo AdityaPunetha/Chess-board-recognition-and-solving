@@ -8,7 +8,7 @@ import os
 app = FastAPI()
 
 model = load_model(
-    os.path.join(os.path.dirname(__file__), "..", "models", "V10_100x100_Grayscale_v1")
+    os.path.join(os.path.dirname(__file__), "..", "models", "model_custom_dataset_100x100_v1")
 )
 
 
@@ -23,7 +23,7 @@ def read_root():
     return {"Hello": "World"}
 
 
-@app.post("/api/nextbestmove")
+@app.post("/api/next_best_move")
 async def predict_api(file: UploadFile = File(...), text: str = None):
     extension = file.filename.split(".")[-1] in ("jpg", "jpeg", "png")
     if not extension:
@@ -37,3 +37,4 @@ async def predict_api(file: UploadFile = File(...), text: str = None):
 
 # uvicorn app:app --host 0.0.0.0 --port 12000 --reload
 # uvicorn.run(app, host="0.0.0.0", port=12000, reload=True)
+# uvicorn Backend.api.app:app --host 0.0.0.0 --port 12000 --reload

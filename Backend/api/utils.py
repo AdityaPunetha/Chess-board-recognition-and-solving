@@ -1,6 +1,5 @@
 import cv2
 import numpy as np
-from sklearn.preprocessing import LabelEncoder
 
 
 def pre_process(img):
@@ -89,12 +88,11 @@ def extract_cells(img):
 
 def predict_cells(model, cells):
     pred = model.predict(cells)
-    y_classes = [np.argmax(element) for element in pred]
+    y_classes = np.array([np.argmax(element) for element in pred])
     return y_classes
 
 
-def prep_encoder():
-    label_encoder = LabelEncoder()
+def get_chess_matrix(pred):
     classes = [
         "Black Bishop",
         "Black King",
@@ -110,14 +108,9 @@ def prep_encoder():
         "White Queen",
         "White Rook",
     ]
-    label_encoder.fit_transform(classes)
-    return label_encoder
-
-
-def get_chess_matrix(enc, pred):
     arr = []
     for i in pred:
-        arr.append(enc.classes_[i])
+        arr.append(classes[i])
     arr = np.array(arr).reshape(8, 8)
     return arr
 
@@ -173,6 +166,5 @@ def get_squares(raw_image):
 
 
 def get_fen(preds, next):
-    enc = prep_encoder()
-    fen = to_fen(get_chess_matrix(enc, preds)) + " {} - 1 0".format(next)
+    fen = to_fen(get_chess_matrix(preds)) + " {} - 1 0".format(next)
     return fen
