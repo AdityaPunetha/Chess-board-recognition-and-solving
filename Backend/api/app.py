@@ -8,7 +8,9 @@ import os
 app = FastAPI()
 
 model = load_model(
-    os.path.join(os.path.dirname(__file__), "..", "models", "model_custom_dataset_100x100_v1")
+    os.path.join(
+        os.path.dirname(__file__), "..", "models", "model_custom_dataset_100x100_v1"
+    )
 )
 
 
@@ -21,6 +23,12 @@ def classify(sq):
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
+
+
+@app.get("/api/sample_fen")
+def get_sample_fen():
+    str = "3r1rk1/2p2ppp/4b3/2p1P3/p1p5/P1P2BP1/1PP1QP1P/2KR4"
+    return str
 
 
 @app.post("/api/next_best_move")
