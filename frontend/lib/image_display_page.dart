@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'chess_page.dart';
+import 'package:http/http.dart' as http;
 
 class ImageDisplay extends StatefulWidget {
   final File? image;
@@ -10,13 +12,22 @@ class ImageDisplay extends StatefulWidget {
 }
 
 class _ImageDisplayState extends State<ImageDisplay> {
-  late String fen;
+  var fen = '';
 
-  void _getPosition(i) {
+  Future<void> _getPosition(i) async {
+    final response = await http.get(Uri.parse(
+        'https://chess-recognition-api.herokuapp.com/api/sample_fen'));
+    if (response.statusCode == 200) {
+      var jsonFen = jsonDecode(response.body);
+      fen = jsonFen['fen'];
+    } else {
+      throw Exception('Failed to load album');
+    }
+
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const ChessPage(fen: 'res'),
+        builder: (context) => ChessPage(fen: fen),
       ),
     );
   }

@@ -20,8 +20,14 @@ class _ChessPageState extends State<ChessPage> {
   void initState() {
     super.initState();
     stockfish = Stockfish();
-    controller.loadFen(
-        'r3kbnr/pbp3pp/p2p4/3Ppq2/2P5/2N2N2/PP3PPP/R1BQ1RK1 w kq - 0 11');
+    controller.loadFen(_constructFEN(widget.fen));
+  }
+
+  // Stockfish destroy
+  @override
+  void dispose() {
+    stockfish.dispose();
+    super.dispose();
   }
 
   // Chessboard init
@@ -34,12 +40,6 @@ class _ChessPageState extends State<ChessPage> {
   // FEN stuff
   var nextColorFEN = 'w';
   var cAvalFEN = '';
-
-  //
-  void loadFen() {
-    controller.loadFen(
-        'r3kbnr/pbp3pp/p2p4/3Ppq2/2P5/2N2N2/PP3PPP/R1BQ1RK1 w kq - 0 11');
-  }
 
   //
   String _constructFEN(posi) {
@@ -75,12 +75,6 @@ class _ChessPageState extends State<ChessPage> {
         stockfishOutput = value;
       });
     });
-
-    //
-    String debugFEN =
-        'r3kbnr/pbp3pp/p2p4/3Ppq2/2P5/2N2N2/PP3PPP/R1BQ1RK1 w kq - 0 11';
-    // controller.loadFen(debugFEN);
-    var positionalFEN = widget.fen;
 
     //
     return Scaffold(
