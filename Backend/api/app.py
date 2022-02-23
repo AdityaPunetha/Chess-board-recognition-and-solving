@@ -27,8 +27,7 @@ def read_root():
 
 @app.get("/api/sample_fen")
 def get_sample_fen():
-    str = "3r1rk1/2p2ppp/4b3/2p1P3/p1p5/P1P2BP1/1PP1QP1P/2KR4"
-    return str
+    return {"fen": "3r1rk1/2p2ppp/4b3/2p1P3/p1p5/P1P2BP1/1PP1QP1P/2KR4"}
 
 
 @app.post("/api/next_best_move")
