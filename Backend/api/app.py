@@ -9,7 +9,11 @@ app = FastAPI()
 
 model = load_model(
     os.path.join(
-        os.path.dirname(__file__), "..", "models", "model_custom_dataset_100x100_v1"
+        os.path.dirname(__file__),
+        "..",
+        "models",
+        "model_custom_dataset_100x100_v2",
+        "model_custom_dataset_100x100_v2",
     )
 )
 
